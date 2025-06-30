@@ -17,10 +17,10 @@ export default function MainApp() {
     contacto: "",
     variantes: []
   });
-
+  const [mantenerContacto, setMantenerContacto] = useState(false);
   const [nuevaVariante, setNuevaVariante] = useState({ color: "", imagenUrl: "", talles: [] });
   const [productos, setProductos] = useState([]);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
 
   const darkMode = theme === "dark";
 
@@ -66,28 +66,31 @@ export default function MainApp() {
     setProductos((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!form.codigo || !form.nombre || form.variantes.length === 0) return;
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!form.codigo || !form.nombre || form.variantes.length === 0) return;
 
-    const nuevoProducto = {
-      ...form,
-      id: uuidv4(),
-      precio: parseInt(form.precio)
-    };
-    setProductos([...productos, nuevoProducto]);
-    setForm({
-      id: uuidv4(),
-      codigo: "",
-      nombre: "",
-      marca: "",
-      tipo: "",
-      precio: "",
-      descripcion: "",
-      contacto: "",
-      variantes: []
-    });
+  const nuevoProducto = {
+    ...form,
+    id: uuidv4(),
+    precio: parseInt(form.precio)
   };
+
+  setProductos([...productos, nuevoProducto]);
+
+  setForm({
+    id: uuidv4(),
+    codigo: "",
+    nombre: "",
+    marca: "",
+    tipo: "",
+    precio: "",
+    descripcion: "",
+    contacto: mantenerContacto ? form.contacto : "",
+    variantes: []
+  });
+};
+
 
   const descargarJSON = () => {
   // Crear una copia de productos sin el campo contacto
@@ -144,6 +147,8 @@ export default function MainApp() {
           eliminarVariante={eliminarVariante}
           handleSubmit={handleSubmit}
           darkMode={darkMode}
+          mantenerContacto={mantenerContacto}
+          setMantenerContacto={setMantenerContacto}
         />
 
         <hr style={{ margin: "40px 0" }} />

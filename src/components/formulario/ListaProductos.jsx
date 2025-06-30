@@ -1,6 +1,3 @@
-// ListaProductos.jsx
-import React from "react";
-
 const ListaProductos = ({ productos, eliminarProducto, darkMode }) => {
   return (
     <div>

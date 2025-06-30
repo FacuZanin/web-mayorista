@@ -1,6 +1,3 @@
-// Formulario.jsx
-import React from "react";
-
 const Formulario = ({
   form,
   setForm,
@@ -12,10 +9,12 @@ const Formulario = ({
   agregarVariante,
   eliminarVariante,
   handleSubmit,
-  darkMode
+  darkMode,
+  mantenerContacto,
+  setMantenerContacto
 }) => {
-  const tallesDisponibles = ["20 al 25", "26 al 33", "34 al 39", "38 al 44"];
-  const marcasDisponibles = ["Adidas", "Asics","Vans", "Nike", "Puma", "New Balance", "Boss","Converse", "Tommy Hilfiger", "Veja", "CAT", "Mizuno", "Fila", "Lacoste"];
+  const tallesDisponibles = ["20 al 25", "26 al 33", "34 al 39", "38 al 43"];
+  const marcasDisponibles = ["Adidas", "Asics", "Vans", "Nike", "Puma", "New Balance", "Boss", "Converse", "Tommy Hilfiger", "Veja", "CAT", "Mizuno", "Fila", "Lacoste", "Olympikus"];
   const tiposDisponibles = ["Urbano", "Deportivo", "Borcegos", "Stiletto", "Mocasines", "Botines", "Ojotas", "Crocs", "Niños"];
   const coloresDisponibles = [
     { nombre: "Amarillo", valor: "yellow" },
@@ -45,15 +44,77 @@ const Formulario = ({
         boxShadow: "0 0 15px rgba(0,0,0,0.15)"
       }}
     >
-      <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-        <input name="codigo" placeholder="Código" value={form.codigo} onChange={handleFormChange} required style={{ flex: 1 }} />
-        <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleFormChange} required style={{ flex: 1 }} />
-      </div>
+<div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
+  <input
+    name="codigo"
+    placeholder="Código"
+    value={form.codigo}
+    onChange={handleFormChange}
+    required
+    style={{ flexBasis: "48%", minWidth: "48%" }}
+  />
+  <input
+    name="nombre"
+    placeholder="Nombre"
+    value={form.nombre}
+    onChange={handleFormChange}
+    required
+    style={{ flexBasis: "48%", minWidth: "48%" }}
+  />
+</div>
 
-      <div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
-        <input name="precio" placeholder="Precio" value={form.precio} onChange={handleFormChange} required type="number" style={{ flex: 1 }} />
-        <input name="contacto" placeholder="Número de contacto" value={form.contacto} onChange={handleFormChange} required style={{ flex: 1 }} />
-      </div>
+
+<div style={{ display: "flex", gap: 10, marginBottom: 10 }}>
+  <input
+    name="precio"
+    placeholder="Precio"
+    value={form.precio}
+    onChange={handleFormChange}
+    required
+    type="number"
+    style={{ flexBasis: "48%", minWidth: "48%" }}
+  />
+
+  {/* Campo de contacto con mantener corregido */}
+  <div style={{
+    flexBasis: "48%",
+    minWidth: "48%",
+    position: "relative",
+    display: "flex",
+    alignItems: "center"
+  }}>
+    <input
+      name="contacto"
+      placeholder="Número de contacto"
+      value={form.contacto}
+      onChange={handleFormChange}
+      required
+      style={{
+        width: "100%",
+        paddingRight: 90
+      }}
+    />
+    <label
+      style={{
+        position: "absolute",
+        right: 10,
+        display: "flex",
+        alignItems: "center",
+        gap: 4,
+        fontSize: 12,
+        color: darkMode ? "#ccc" : "#333"
+      }}
+    >
+      <input
+        type="checkbox"
+        checked={mantenerContacto}
+        onChange={(e) => setMantenerContacto(e.target.checked)}
+      />
+      Mantener
+    </label>
+  </div>
+</div>
+
 
       <div style={{ marginBottom: 10 }}>
         <strong>Seleccionar Marca:</strong><br />
@@ -160,14 +221,30 @@ const Formulario = ({
         ))}
       </div>
 
-      <button type="button" onClick={agregarVariante} style={{ padding: "10px", backgroundColor: "#17a2b8", color: "white", border: "none", borderRadius: 6, cursor: "pointer" }}>Agregar Variante</button>
+      <button
+        type="button"
+        onClick={agregarVariante}
+        style={{
+          padding: "10px",
+          backgroundColor: "#17a2b8",
+          color: "white",
+          border: "none",
+          borderRadius: 6,
+          cursor: "pointer"
+        }}
+      >
+        Agregar Variante
+      </button>
 
       <div style={{ margin: "15px 0" }}>
         <strong>Variantes añadidas:</strong>
         <ul>
           {form.variantes.map((v) => (
             <li key={v.id}>
-              {v.color} - Talles: {v.talles.join(", ")} - <a href={v.imagenUrl} target="_blank" rel="noopener noreferrer">Ver Imagen</a>
+              {v.color} - Talles: {v.talles.join(", ")} -{" "}
+              <a href={v.imagenUrl} target="_blank" rel="noopener noreferrer">
+                Ver Imagen
+              </a>
               <button
                 onClick={() => eliminarVariante(v.id)}
                 style={{
